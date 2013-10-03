@@ -1,0 +1,32 @@
+{
+  "appenders": [
+    {
+      "category": "maya",
+      "type": "file",
+      "filename": "/data1/sina_maya/log/maya.log",
+      "maxLogSize": 2048000000,
+      "backups": 2,
+      "layout": {
+        "type": "basic"
+      }
+    },
+    {
+      "type": "logLevelFilter",
+      "level": "WARN",
+      "appender": {
+          "category": "maya",
+          "type": "file",
+          "filename": "/data1/sina_maya/log/maya.wf.log",
+          "maxLogSize": 2048000000,
+          "backups": 1,
+          "layout": {
+              "type": "basic"
+          }
+      }
+    }
+  ],
+
+  "levels": {
+    "maya":  "INFO"
+  }
+}

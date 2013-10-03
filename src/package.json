@@ -1,0 +1,17 @@
+{
+   "name": "maya",
+   "version": "1.4.0",
+   "description": "mysql cluster proxy",
+   "keywords": [
+       "node"
+   ],
+   "author": "daxin <daxin1@staff.sina.com.cn>, guilin <guilin@staff.sina.com.cn>, hanfang <hanfang@staff.sina.com.cn>",
+   "engines": [ "node >= 0.8" ],
+   "scripts": {
+       "test": "mocha -R spec ./test/"
+   },
+   "directories": {
+       "test": "test",
+       "lib": "lib"
+   }
+}

@@ -1,0 +1,170 @@
+{
+    "client_port" : 3306,
+    "management_port": 13306,
+    "max_idle_time" : 800,
+    "allowed_ip": [],
+    "denied_ip": [],
+    "maya_api_host": "localhost:8888",
+    "zk_conf" : {
+        "connect": "zk.sina_maya.com.cn:2181",
+        "timeout": 20000,
+        "host_order_deterministic": false,
+        "maya_zk_path" : "/sina_maya/maya_test.eos"
+    },
+    "apps":
+    [
+        {
+            "app_name": "mysqlslap",
+            "maya_user": "mayauser",
+            "maya_passwd": "mayapass",
+            "mysql_user": "maya",
+            "mysql_passwd": "maya123456",
+            "server_conn_wait_timeout": 30,
+            "client_flags": "-MULTI_STATEMENTS",
+            "server_conn_pool_size": 1024,
+            "multi_query_mode": 1,
+            "force_read_master_seconds": 0,
+            "select_db_by_client_ip": 0,
+            "long_query_time": 0,
+            "kill_long_query_time": 0,
+            "client_max_conn_num": 400,
+            "server_init_commands": [
+                "SET NAMES UTF8"
+            ],
+            "monitor": {
+                "max_disabled_slaves_percent": "50",
+                "detect_interval_seconds": 5,
+                "conn_fail_max_seconds": 9,
+                "slave_max_delay_seconds": 400,
+                "server_max_connections": 1000
+            },
+            "db_groups": [
+                {
+                    "name": "group_1",
+                    "mysql_db_name": "myat",
+                    "max_disabled_slaves_percent": "40",
+                    "dbs": [
+                        {
+                            "host": "10.75.19.79",
+                            "port": 9601,
+                            "is_master": 1
+                        },
+                        {
+                            "host": "10.75.19.80",
+                            "port": 9601,
+                            "weight": 10,
+                            "disable_monitor": 0
+                        },
+                        {
+                            "host": "10.75.19.81",
+                            "port": 9601
+                        }
+                    ]
+                },
+                {
+                    "name": "group_2",
+                    "mysql_db_name": "myat",
+                    "dbs": [
+                        {
+                            "host": "10.75.19.79",
+                            "port": 9602,
+                            "is_master": 1
+                        },
+                        {
+                            "host": "10.75.19.80",
+                            "port": 9602
+                        },
+                        {
+                            "host": "10.75.19.81",
+                            "port": 9602
+                        }
+                    ]
+                }
+            ],
+            "virtual_table": [
+                {
+                    "virtual_table_name": "test_table",
+                    "rowkey": "uid",
+                    "hash_func": "parseInt(hash('crc32', value), 16)",
+                    "table_partition_num": 128,
+                    "table_index_begin": 0,
+                    "db_index_begin": 0,
+                    "assign_db_instance_by": "table",
+                    "partition_table_name_pattern": "at_%02x",
+                    "partitions": [
+                        {
+                            "db_group": "group_1",
+                            "assign_range": "[0x00..0x3f]"
+                        },
+                        {
+                            "db_group": "group_2",
+                            "assign_range": "[0x40..0x7f]"
+                        }
+                    ]
+                },
+                {
+                    "virtual_table_name": "^table_",
+                    "rowkey": "uid",
+                    "hash_func": "parseInt(hash('crc32', value), 16)",
+                    "db_partition_num": 128,
+                    "table_index_begin": 0,
+                    "db_index_begin": 0,
+                    "assign_db_instance_by": "db",
+                    "partition_db_name_pattern": "db_%02x",
+                    "partitions": [
+                        {
+                            "db_group": "group_1",
+                            "assign_range": "[0x00..0x3f]"
+                        },
+                        {
+                            "db_group": "group_2",
+                            "assign_range": "[0x40..0x7f]"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "app_name": "app1",
+            "maya_user": "mayauser",
+            "maya_passwd": "mayapass",
+            "mysql_user": "maya",
+            "mysql_passwd": "maya123456",
+            "force_read_master_seconds": 10,
+            "server_conn_wait_timeout": 30,
+            "server_conn_pool_size": 1024,
+            "server_init_commands": [
+                "SET NAMES UTF8"
+            ],
+            "select_db_by_client_ip": true,
+            "monitor": {
+                "detect_interval_seconds": 5,
+                "conn_fail_max_seconds": 9,
+                "slave_max_delay_seconds": 400,
+                "server_max_connections": 1000
+            },
+            "db_groups": [
+                {
+                    "name": "group_1",
+                    "mysql_db_name": "test",
+                    "max_disabled_slaves_percent": "50%",
+                    "dbs": [
+                        {
+                            "host": "10.75.19.79",
+                            "port": 9603,
+                            "is_master": 1
+                        },
+                        {
+                            "host": "10.75.19.80",
+                            "port": 9603
+                        },
+                        {
+                            "host": "10.75.19.81",
+                            "port": 9603
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
