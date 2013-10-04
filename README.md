@@ -1,28 +1,31 @@
 # maya
 
-## 安装node（以0.8.7版本为例）
-下载：
-http://nodejs.org/dist/v0.8.7/node-v0.8.7.tar.gz
+## 安装node.js
+依赖node v0.8最新版，暂不支持更高的node版本，此处以0.8.7版本为例。
 
-root安装（官方要求python2.5.2以上，但实际2.4.3安装也没发现问题）
+下载：http://nodejs.org/
 
+root安装（官方要求python2.5.2以上）
+```
 tar -zxf node-v0.8.7.tar.gz 
 cd node-v0.8.7
 ./configure --prefix=/usr/local/sinasrv2/
 make
 make install
-
+```
 在root环境变量中增加如下两项：
+```
 echo 'export NODE_PATH=/usr/local/sinasrv2:/usr/local/sinasrv2/lib/node_modules' >> ~/.bash_profile && echo 'export PATH=$PATH:/usr/local/sinasrv2/bin' >> ~/.bash_profile && source ~/.bash_profile
-
+```
 ## 安装maya
-root安装
-进入maya主目录执行：
+root安装，进入maya主目录执行：
+```
 sh install.sh
+```
 程序安装在“/usr/local/sina_maya”并在“/etc/init.d/”下增加“/usr/local/sina_maya/bin/sina_maya“的软链用于启动服务
-
 ## 参数配置示例与说明
 全局配置（global_conf.json）:
+```
 {
     #客户端连接端口
     "client_port" : 15050,
@@ -39,7 +42,9 @@ sh install.sh
         "workers" : 8
     }
 }
+```
 数据库集群配置（db_cluster.json）
+```
 {
     #用于客户端与maya之间鉴权的用户名和密码
     "maya_user": "mayauser",
@@ -154,20 +159,44 @@ sh install.sh
         ]
     }
 }
-
+```
 ## 运行方法
 启动：
+```
 /usr/local/sina_maya/bin/sina_maya start
+```
 停止：
+```
 /usr/local/sina_maya/bin/sina_maya stop
+```
 状态查看：
+```
 /usr/local/sina_maya/bin/sina_maya status
+```
 重载配置：
+```
 /usr/local/sina_maya/bin/sina_maya reload
+```
 重启：
+```
 /usr/local/sina_maya/bin/sina_maya restart
+```
 检查配置文件
+```
 /usr/local/sina_maya/bin/sina_maya check_conf
-
+```
 ## 注意事项：
-要求修改系统默认文件句柄数限制（ulimit -n），不小于20万
+* 要求修改系统默认文件句柄数限制（ulimit -n），不小于20万
+
+## LICENSE
+
+MIT  LICENSE
+
+## ORIGINAL AUTHOR
+
+Wang Daxin (freedaxin@github)
+
+with awesome contributions from:
+
+- Han Fang
+- Cui Guilin
